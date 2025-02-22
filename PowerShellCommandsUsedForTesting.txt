@@ -1,0 +1,32 @@
+Hello, here are the commands I personally used for testing. Thanks! -Theo (jsniffjs on GitHub)
+
+~~~~~~~Task 1 PowerShell Commands~~~~~~~
+
+Read (GET) employee's reporting structure:
+
+Invoke-RestMethod -Uri "http://localhost:8080/reportingStructure/{id}" -Method Get | Format-List
+
+~~~~~~~Task 2 PowerShell Commands~~~~~~~
+
+Create (POST) a new employee:
+
+$employeeId = [guid]::NewGuid().ToString()
+$employee = @{
+    employeeId = $employeeId
+    firstName = "John"
+    lastName = "Doe"
+    position = "Software Engineer"
+    department = "Engineering"
+} | ConvertTo-Json -Depth 10
+
+Invoke-RestMethod -Uri "http://localhost:8080/employee" -Method Post -ContentType "application/json" -Body $employee
+
+Create (POST) compensation for new employee:
+
+Invoke-RestMethod -Uri "http://localhost:8080/compensation?employeeId={id}&salary={salary}&effectiveDate={YYYY-MM-DD}" -Method Post
+
+Read (GET) compensation for new employee:
+
+Invoke-RestMethod -Uri "http://localhost:8080/compensation/{id}" -Method Get | Format-List
+
+Reboot gradlew and confirm with GET that compensation data persists.
